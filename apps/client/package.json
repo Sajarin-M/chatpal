@@ -1,0 +1,46 @@
+{
+  "name": "@chatpal/client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "lint": "tsc",
+    "preview": "vite preview",
+    "build": "tsc && vite build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.5",
+    "@mantine/hooks": "^6.0.5",
+    "@mantine/modals": "^6.0.5",
+    "@mantine/notifications": "^6.0.5",
+    "@tanstack/react-query": "^4.28.0",
+    "@trpc/client": "^10.18.0",
+    "@trpc/react-query": "^10.18.0",
+    "@trpc/server": "^10.18.0",
+    "axios": "^1.3.4",
+    "jwt-decode": "^3.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "@chatpal/server": "workspace:*"
+  },
+  "devDependencies": {
+    "@mantine/utils": "^6.0.5",
+    "@tanstack/react-query-devtools": "^4.28.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@types/react": "^18.0.32",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "^3.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-router-dom": "^6.10.0",
+    "react-virtuoso": "^4.1.1",
+    "rollup-plugin-visualizer": "^5.9.0",
+    "typescript": "^5.0.3",
+    "vite": "^4.2.1",
+    "vite-tsconfig-paths": "^4.0.7",
+    "@chatpal/prettier-config": "workspace:*"
+  }
+}

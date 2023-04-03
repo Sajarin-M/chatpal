@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine3.15
+    container_name: chatpal_postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=chatpal
+      - POSTGRES_DB=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - default
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: chatpal_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=chatpal@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=chatpal
+    ports:
+      - '3002:80'
+    restart: unless-stopped
