@@ -3,11 +3,15 @@ import type { AppRouter } from '@chatpal/server';
 import { showNotification } from '@mantine/notifications';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { httpBatchLink } from '@trpc/client';
+import { createWSClient, httpBatchLink, wsLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useAuth } from './auth';
 
 export const trpc = createTRPCReact<AppRouter>();
+
+const wsClient = createWSClient({
+  url: `ws://localhost:3002`,
+});
 
 const ReactQueryDevtoolsProduction = lazy(() =>
   import('@tanstack/react-query-devtools/build/lib/index.prod.js').then((d) => ({
@@ -42,6 +46,9 @@ export function TrpcProvider({ children }: FCWithChildren) {
     () =>
       trpc.createClient({
         links: [
+          wsLink({
+            client: wsClient,
+          }),
           httpBatchLink({
             url: 'http://localhost:3001/trpc',
             headers: () => ({

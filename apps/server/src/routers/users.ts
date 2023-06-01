@@ -1,16 +1,11 @@
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { observable } from '@trpc/server/observable';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import ee from '../events';
 import { publicProcedure, router } from '../trpc';
 
 const privateKey = 'temp-key';
-
-const userSelect: Prisma.UserSelect = {
-  id: true,
-  name: true,
-  email: true,
-};
 
 export const usersRouter = router({
   signup: publicProcedure
@@ -24,7 +19,11 @@ export const usersRouter = router({
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.prisma.user.create({
         data: input,
-        select: userSelect,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
       });
 
       return { token: jwt.sign(user, privateKey) };
@@ -42,7 +41,11 @@ export const usersRouter = router({
           email: username,
           password,
         },
-        select: userSelect,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
       });
       if (!user) {
         throw new TRPCError({
@@ -50,6 +53,22 @@ export const usersRouter = router({
           message: 'Invalid username or password',
         });
       }
+
+      ee.emit('loggedIn', user.name);
+
       return { token: jwt.sign(user, privateKey) };
     }),
+  onLogin: publicProcedure.subscription(() =>
+    observable<string>((emit) => {
+      function onLogin(str: string) {
+        emit.next(str);
+      }
+
+      ee.on('loggedIn', onLogin);
+      // unsubscribe function when client disconnects or stops subscribing
+      return () => {
+        ee.off('loggedIn', onLogin);
+      };
+    }),
+  ),
 });

@@ -17,5 +17,6 @@ export default defineConfig({
   ],
   server: {
     open: '/',
+    host: true,
   },
 });

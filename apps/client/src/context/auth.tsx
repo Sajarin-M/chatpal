@@ -65,7 +65,7 @@ export default function AuthProvider({ children }: FCWithChildren) {
 
   const logout: Context['logout'] = () => {
     setToken('');
-    navigate('/');
+    navigate('/landing?tab=start');
   };
 
   return (

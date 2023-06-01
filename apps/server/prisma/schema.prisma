@@ -13,3 +13,13 @@ model User {
   email    String @unique
   password String
 }
+
+model Chat {
+  id String @id @default(uuid())
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now())
+}

@@ -22,5 +22,5 @@ services:
       - PGADMIN_DEFAULT_EMAIL=chatpal@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=chatpal
     ports:
-      - '3002:80'
+      - '5000:80'
     restart: unless-stopped

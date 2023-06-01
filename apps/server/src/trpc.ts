@@ -1,11 +1,18 @@
 import { User } from '@prisma/client';
-import { initTRPC, TRPCError } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
+import { NodeHTTPCreateContextFnOptions } from '@trpc/server/dist/adapters/node-http';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import ws from 'ws';
 import { prisma } from './prisma';
 
-export function createContext({ req, res }: { req: Request; res: Response }) {
-  const token = req.headers.authorization;
+type Options = { req: Request; res: Response };
+
+export function createContext({ req, res }: Options | NodeHTTPCreateContextFnOptions<Options, ws>) {
+  let token: string | undefined = undefined;
+  if ('headers' in req) {
+    token = req.headers.authorization;
+  }
   return { req, res, token, prisma, verify: jwt.verify };
 }
 

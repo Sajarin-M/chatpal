@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "Start Dev",
+      "detail": "turbo run dev",
+      "isBackground": true
+    },
+    {
+      "type": "shell",
+      "command": "docker compose up --remove-orphans",
+      "label": "Database",
+      "options": {
+        "cwd": "${cwd}/db"
+      },
+      "detail": "postgres database",
+      "problemMatcher": [],
+      "isBackground": true
+    },
+    {
+      "type": "shell",
+      "command": "pnpm dlx prisma generate",
+      "label": "Prisma Generate",
+      "options": {
+        "cwd": "${cwd}/apps/server"
+      },
+      "detail": "generate prisma models",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": [],
+      "label": "Install Deps",
+      "detail": "pnpm install"
+    },
+    {
+      "type": "npm",
+      "script": "clean",
+      "problemMatcher": [],
+      "label": "Clean Modules",
+      "detail": "pnpm clean"
+    },
+    {
+      "label": "Clean & Setup",
+      "detail": "clean modules & resetup",
+      "dependsOn": ["Clean Modules", "Install Deps", "Prisma Generate"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}

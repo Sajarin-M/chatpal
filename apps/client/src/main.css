@@ -10,3 +10,9 @@ body {
 *::before {
   box-sizing: border-box;
 }
+
+.size-screen {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+}
